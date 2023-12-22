@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+/*bcrypt is use to encode the password*/
 
 export const hashpassword = async (password) => {
     try{
