@@ -1,14 +1,18 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {lazy, Suspense} from "react";
-import Loader from './components/loader';
-import Header from './components/Header';
- 
+import Loader from "./components/loader";
+import Header from "./components/Header";
+
+
+
+//pages importing
 const Home = lazy(()=> import("./pages/Home"));
 const Search = lazy(()=> import("./pages/Search"));
 const Cart = lazy(()=> import("./pages/Cart"));
+const Shipping = lazy(()=> import("./pages/shipping"));
+const Login = lazy(()=> import("./pages/login"));
 
-
-//admin routes
+//admin routes importing
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
 const Products = lazy(() => import("./pages/admin/products"));
 const Customers = lazy(() => import("./pages/admin/customers"));
@@ -27,24 +31,35 @@ const TransactionManagement = lazy(
   () => import("./pages/admin/management/transactionmanagement")
 );
 
+
+ 
 const App = () => {
   return (
-    <Router>
-      <Header/>
-      
-      <Suspense fallback={<Loader/>}>
-      <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/search' element={<Search/>} />
-        <Route path='/cart' element={<Cart/>} />
+    <BrowserRouter>
+    {/*{ Header }  here whatever route we give it will be availbale for all route  */}
+    <Header/>   
+    <Suspense fallback={<Loader/>}>
+    <Routes>
+      <Route path='/' element={<Home/>}></Route>
+      <Route path='/search' element={<Search/>}></Route>
+      <Route path='/cart' element={<Cart/>}></Route>
 
-        {/*Admin routes */}
-<Route
-  // element={
-  //   <ProtectedRoute isAuthenticated={true} adminRoute={true} isAdmin={true} />
-  // }
->
-  <Route path="/admin/dashboard" element={<Dashboard />} />
+      {/* Not logged in route*/}
+      <Route path="/login" element={<Login/>}></Route>
+      {/* Logged In User Routes */}
+
+      <Route>
+      <Route path='/shipping' element={<Shipping/>}></Route>
+
+      </Route>
+
+      {/* Admin routes */}
+      {/* <Route
+  element={
+    <ProtectedRoute isAuthenticated={true} adminRoute={true} isAdmin={true} />
+  }
+></Route> */}
+      <Route path="/admin/dashboard" element={<Dashboard />} />
   <Route path="/admin/product" element={<Products />} />
   <Route path="/admin/customer" element={<Customers />} />
   <Route path="/admin/transaction" element={<Transaction />} />
@@ -63,14 +78,10 @@ const App = () => {
   <Route path="/admin/product/:id" element={<ProductManagement />} />
 
   <Route path="/admin/transaction/:id" element={<TransactionManagement />} />
-</Route>;
-
-      </Routes>
-      </Suspense>
-      
-    </Router>
-  )
-  
+    </Routes>
+    </Suspense>
+    </BrowserRouter>
+  );
 };
 
-export default App;
+export default App

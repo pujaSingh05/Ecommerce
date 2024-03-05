@@ -3,9 +3,9 @@ import React from 'react'
 const loader = () => {
   return (
     <div>
-      loading...
+      Loading...
     </div>
   )
 }
 
-export default loader
+export default loader;
